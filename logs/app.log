@@ -1,0 +1,45 @@
+[2025-06-11 23:22:41] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-11 23:23:10] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-11 23:24:42] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-11 23:25:06] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-11 23:25:33] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-11 23:26:00] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-11 23:26:29] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-11 23:27:00] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-11 23:32:54] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-11 23:33:23] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-11 23:34:53] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-12 00:02:20] [ERROR] [travel_planner] Failed to connect to Qdrant: Client.__init__() got an unexpected keyword argument 'check_compatibility'
+[2025-06-12 00:13:48] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-12 00:24:12] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-12 00:35:38] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-12 00:36:03] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-12 00:44:54] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-12 00:45:19] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-12 00:45:45] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-12 00:58:21] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-12 00:59:03] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-12 01:06:59] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-12 01:07:26] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-12 01:08:01] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-12 01:08:29] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-12 01:08:33] [ERROR] [travel_planner] Failed to set up Qdrant schema: 1 validation error for VectorParams
+size
+  Input should be a valid integer [type=int_type, input_value=<function get_qdrant_client at 0x0000022E4C699E40>, input_type=function]
+    For further information visit https://errors.pydantic.dev/2.11/v/int_type
+[2025-06-12 01:18:19] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-12 01:18:23] [ERROR] [travel_planner] Failed to set up Qdrant schema: 1 validation error for VectorParams
+size
+  Input should be a valid integer [type=int_type, input_value=<function get_qdrant_client at 0x0000026F8F6B9E40>, input_type=function]
+    For further information visit https://errors.pydantic.dev/2.11/v/int_type
+[2025-06-12 01:21:44] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-12 01:25:37] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-12 01:25:41] [INFO] [travel_planner] Created collection 'places' in Qdrant.
+[2025-06-12 01:26:13] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-12 01:26:17] [INFO] [travel_planner] Collection 'places' already exists.
+[2025-06-12 01:30:02] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-12 01:30:06] [INFO] [travel_planner] Collection 'places' already exists.
+[2025-06-12 01:30:35] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-12 01:30:39] [INFO] [travel_planner] Collection 'places' already exists.
+[2025-06-12 01:31:07] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-12 01:31:12] [INFO] [travel_planner] Collection 'places' already exists.

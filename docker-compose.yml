@@ -1,0 +1,110 @@
+version: '3.8'
+
+services:
+  # ========= MongoDB =========
+  mongo-db:
+    image: mongo:6.0
+    container_name: mongo-db
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - travel-net
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ========= MinIO =========
+  minio:
+    image: minio/minio:RELEASE.2023-01-12T02-06-16Z
+    container_name: minio
+    command: server /minio_data --console-address ":9101"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - "9100:9000"
+      - "9101:9101"
+    volumes:
+      - minio-data:/minio_data
+    networks:
+      - travel-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # ========= Qdrant =========
+  qdrant:
+    image: qdrant/qdrant:v1.7.3
+    container_name: qdrant
+    restart: always
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant-data:/qdrant/storage
+    networks:
+      - travel-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ========= FastAPI Backend =========
+  fastapi-backend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: fastapi-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    env_file:
+      - ./backend/.env
+    depends_on:
+      mongo-db:
+        condition: service_healthy
+      qdrant:
+        condition: service_healthy
+    networks:
+      - travel-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/docs"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ========= Streamlit Frontend =========
+  streamlit-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: streamlit-frontend
+    ports:
+      - "8501:8501"
+    depends_on:
+      fastapi-backend:
+        condition: service_healthy
+    volumes:
+      - ./frontend:/frontend
+    networks:
+      - travel-net
+
+# ========== Volumes ==========
+volumes:
+  mongo-data:
+  minio-data:
+  qdrant-data:
+
+# ========== Networks ==========
+networks:
+  travel-net:
+    driver: bridge

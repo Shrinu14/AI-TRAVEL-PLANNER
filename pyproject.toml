@@ -1,0 +1,27 @@
+[project]
+name = "ai-travel-planner"
+version = "0.1.0"
+description = "AI-powered travel planner with FastAPI, Streamlit, Milvus, and Firebase"
+authors = [
+    { name = "Shrinivas V A", email = "your-email@example.com" }
+]
+requires-python = ">=3.10"
+
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "pymilvus==2.5.0",
+    "sentence-transformers",
+    "firebase-admin",
+    "httpx",
+    "streamlit",
+    "pymongo",
+    "python-dotenv",
+    "transformers",
+    "langchain",
+    "langgraph",
+    "qdrant-client==1.7.1"
+]
+
+[tool.uv]
+# Optional section if you want to customize UV behavior
