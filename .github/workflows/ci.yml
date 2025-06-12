@@ -2,7 +2,7 @@ name: Docker CI/CD
 
 on:
   push:
-    branches: [ main ]  # Trigger only on main branch pushes
+    branches: [ main ]
 
 jobs:
   build-and-deploy:
@@ -18,24 +18,22 @@ jobs:
       - name: 🔐 Log in to Docker Hub
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: 📦 Build Backend Image
-        run: |
-          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/travel-backend ./backend
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/travel-backend ./backend
 
       - name: 📦 Build Frontend Image
-        run: |
-          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/travel-frontend ./frontend
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/travel-frontend ./frontend
 
-      - name: 🛳️ Push Backend Image to Docker Hub
-        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/travel-backend
+      - name: 🛳️ Push Backend Image
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/travel-backend
 
-      - name: 🛳️ Push Frontend Image to Docker Hub
-        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/travel-frontend
+      - name: 🛳️ Push Frontend Image
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/travel-frontend
 
-      - name: Run Backend Tests
+      - name:  Run Backend Tests
         run: |
           pip install -r backend/requirements.txt
           pytest backend/tests || echo "No tests yet"
