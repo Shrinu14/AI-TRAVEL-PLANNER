@@ -1,4 +1,4 @@
-version: '3.8'
+# version: '3.8'
 
 services:
   # ========= MongoDB =========
@@ -68,7 +68,7 @@ services:
     volumes:
       - .:/app
     env_file:
-      - ./backend/.env
+      - .env
     depends_on:
       mongo-db:
         condition: service_healthy

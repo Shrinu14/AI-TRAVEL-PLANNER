@@ -10,10 +10,10 @@ st.set_page_config(page_title="AI Travel Planner", layout="centered")
 st.title("✈️ AI Travel Itinerary & Budget Planner")
 
 # ======== FIREBASE LOGIN (for real use, switch to JS/Python integration) =========
-st.sidebar.title("🔐 Login")
-st.sidebar.info("Paste your Firebase ID token below if already authenticated.")
-firebase_id_token = st.sidebar.text_input("Firebase ID Token", type="password")
-headers = {"Authorization": f"Bearer {firebase_id_token}"} if firebase_id_token else {}
+# st.sidebar.title("🔐 Login")
+# st.sidebar.info("Paste your Firebase ID token below if already authenticated.")
+# firebase_id_token = st.sidebar.text_input("Firebase ID Token", type="password")
+# headers = {"Authorization": f"Bearer {firebase_id_token}"} if firebase_id_token else {}
 
 # ======== HELPER =========
 def auth_get(url, params=None):
@@ -123,10 +123,10 @@ with st.expander("📍 Google Maps & Weather"):
             st.warning("Please enter a location.")
 
 # ======== PROTECTED USER CHECK =========
-if firebase_id_token:
-    st.success("✅ Logged in")
-    result = auth_get("http://localhost:8000/user/me")
-    if result:
-        st.write(result)
-else:
-    st.warning("Please login using your Firebase ID token.")
+# if firebase_id_token:
+#     st.success("✅ Logged in")
+#     result = auth_get("http://localhost:8000/user/me")
+#     if result:
+#         st.write(result)
+# else:
+#     st.warning("Please login using your Firebase ID token.")

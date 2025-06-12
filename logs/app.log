@@ -43,3 +43,11 @@ size
 [2025-06-12 01:30:39] [INFO] [travel_planner] Collection 'places' already exists.
 [2025-06-12 01:31:07] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
 [2025-06-12 01:31:12] [INFO] [travel_planner] Collection 'places' already exists.
+[2025-06-12 13:40:03] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-12 13:40:08] [INFO] [travel_planner] Collection 'places' already exists.
+[2025-06-12 13:41:01] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-12 13:41:05] [INFO] [travel_planner] Collection 'places' already exists.
+[2025-06-12 13:42:35] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-12 13:42:40] [INFO] [travel_planner] Collection 'places' already exists.
+[2025-06-12 13:45:56] [INFO] [travel_planner] Connected to Qdrant at localhost:6333
+[2025-06-12 13:46:00] [INFO] [travel_planner] Collection 'places' already exists.
