@@ -21,11 +21,15 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
+      # The backend Dockerfile lives at docker/Dockerfile and builds with
+      # the repo root as context (it COPYs ".", i.e. backend/, auth/,
+      # requirements.txt, etc.) -- "docker build ./backend" pointed at a
+      # directory with no Dockerfile at all and always failed.
       - name: 📦 Build Backend Image
-        run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/travel-backend ./backend
+        run: docker build -f docker/Dockerfile -t ${{ secrets.DOCKER_HUB_USERNAME }}/travel-backend .
 
       - name: 📦 Build Frontend Image
-        run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/travel-frontend ./frontend
+        run: docker build -f frontend/Dockerfile -t ${{ secrets.DOCKER_HUB_USERNAME }}/travel-frontend ./frontend
 
       - name: 🛳️ Push Backend Image
         run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/travel-backend
@@ -33,7 +37,8 @@ jobs:
       - name: 🛳️ Push Frontend Image
         run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/travel-frontend
 
+      # requirements.txt is at the repo root; there is no backend/requirements.txt.
       - name:  Run Backend Tests
         run: |
-          pip install -r backend/requirements.txt
+          pip install -r requirements.txt
           pytest backend/tests || echo "No tests yet"
