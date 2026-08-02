@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import List
 from backend.search.embedder import get_embedding
-from utils.qdrant_utils import get_qdrant_client, COLLECTION_NAME
+from backend.utils.qdrant_utils import get_qdrant_client, COLLECTION_NAME
 import uuid
 import logging
 from qdrant_client.models import PointStruct

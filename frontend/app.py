@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import requests
 from datetime import date as dt_date
@@ -9,11 +10,21 @@ st.set_page_config(page_title="AI Travel Planner", layout="centered")
 # ======== TITLE =========
 st.title("✈️ AI Travel Itinerary & Budget Planner")
 
+# Backend URL is now configurable (was hardcoded to http://localhost:8000
+# everywhere, which only worked if frontend and backend ran on the same
+# machine -- broke as soon as either was deployed separately).
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
+
 # ======== FIREBASE LOGIN (for real use, switch to JS/Python integration) =========
 # st.sidebar.title("🔐 Login")
 # st.sidebar.info("Paste your Firebase ID token below if already authenticated.")
 # firebase_id_token = st.sidebar.text_input("Firebase ID Token", type="password")
 # headers = {"Authorization": f"Bearer {firebase_id_token}"} if firebase_id_token else {}
+
+# `headers` was only ever defined inside the commented-out Firebase login
+# block above, so every call to auth_get() raised NameError: headers is not
+# defined. Define it unconditionally (empty when there's no token).
+headers = {}
 
 # ======== HELPER =========
 def auth_get(url, params=None):
@@ -39,7 +50,7 @@ with st.expander("🗺️ Generate AI Itinerary"):
             st.warning("Please provide all inputs!")
         else:
             try:
-                res = requests.post("http://localhost:8000/generate-itinerary", json={
+                res = requests.post(f"{BACKEND_URL}/generate-itinerary", json={
                     "user_id": uid,
                     "destination": destination,
                     "days": days,
@@ -63,7 +74,7 @@ with st.expander("🧮 Budget Estimator"):
         if not destination:
             st.warning("Please enter a destination.")
         else:
-            result = auth_get("http://localhost:8000/estimate", params={
+            result = auth_get(f"{BACKEND_URL}/estimate", params={
                 "duration": duration,
                 "budget": budget,
                 "destination": destination
@@ -77,7 +88,7 @@ with st.expander("🧮 Budget Estimator"):
 with st.expander("🛫 Best Flight Options"):
     flight_date = st.date_input("Flight Date", min_value=dt_date.today())
     if st.button("Fetch Flights"):
-        result = auth_get("http://localhost:8000/flights", params={"destination": destination, "date": str(flight_date)})
+        result = auth_get(f"{BACKEND_URL}/flights", params={"destination": destination, "date": str(flight_date)})
         if result:
             for f in result["flights"]:
                 st.write(f"✈️ {f['airline']} - ₹{f['price']} ({f['departure']} → {f['arrival']})")
@@ -86,7 +97,7 @@ with st.expander("🛫 Best Flight Options"):
 with st.expander("🏨 Recommended Hotels"):
     nights = st.slider("Nights", 1, 10, 3)
     if st.button("Fetch Hotels"):
-        result = auth_get("http://localhost:8000/hotels", params={
+        result = auth_get(f"{BACKEND_URL}/hotels", params={
             "destination": destination,
             "checkin": str(flight_date),
             "nights": nights
@@ -102,7 +113,7 @@ with st.expander("🌍 Translate Your Itinerary"):
     lang = st.selectbox("Target Language", ["fr", "de", "es", "hi"])
     if st.button("Translate"):
         try:
-            response = requests.post("http://localhost:8000/translate", json={"text": text, "target_lang": lang})
+            response = requests.post(f"{BACKEND_URL}/translate", json={"text": text, "target_lang": lang})
             response.raise_for_status()
             st.write("**Translated Text:**", response.json()["translated"])
         except Exception as e:
@@ -116,16 +127,22 @@ with st.expander("📍 Google Maps & Weather"):
             st.markdown(f"**🗺️ Map for {location}:**")
             iframe(f"https://maps.google.com/maps?q={location}&output=embed", height=300)
 
-            weather_data = auth_get("http://localhost:8000/weather", params={"location": location})
+            # The backend's /weather endpoint expects a "destination" query
+            # param and returns {location, condition, temp_c, humidity,
+            # wind_kph, icon} -- this used to send "location" (never bound,
+            # so the request always failed validation) and then read
+            # nonexistent "description"/"temperature" keys from the
+            # response.
+            weather_data = auth_get(f"{BACKEND_URL}/weather", params={"destination": location})
             if weather_data:
-                st.write(f"🌤️ Weather: {weather_data['description']}, 🌡️ {weather_data['temperature']}°C")
+                st.write(f"🌤️ Weather: {weather_data['condition']}, 🌡️ {weather_data['temp_c']}°C")
         else:
             st.warning("Please enter a location.")
 
 # ======== PROTECTED USER CHECK =========
 # if firebase_id_token:
 #     st.success("✅ Logged in")
-#     result = auth_get("http://localhost:8000/user/me")
+#     result = auth_get(f"{BACKEND_URL}/user/me")
 #     if result:
 #         st.write(result)
 # else:

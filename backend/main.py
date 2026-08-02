@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-from backend.routes import search, rag_chat, budget
+from backend.routes import search, rag_chat, budget, itinerary, translate, upload_places, auth as auth_routes
 from backend.utils.schema import ItineraryRequest
 from backend.langgraph_agents.itinerary_agent import generate_itinerary
 from backend.db.mongodb import itineraries_collection
@@ -134,5 +134,9 @@ def get_user_data(user=Depends(verify_token)):
 
 # ========== Include Modular Routers ==========
 app.include_router(search.router)
+app.include_router(itinerary.router)
+app.include_router(translate.router)
+app.include_router(upload_places.router)
+app.include_router(auth_routes.router)
 app.include_router(rag_chat.router)
 app.include_router(budget.router)

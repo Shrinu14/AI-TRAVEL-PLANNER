@@ -1,5 +1,5 @@
 from backend.utils.qdrant_utils import get_qdrant_client  # renamed utils
-from search.embedder import get_embedding
+from backend.search.embedder import get_embedding
 from backend.utils.logger import logger
 import uuid
 
